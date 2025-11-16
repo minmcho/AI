@@ -24,7 +24,8 @@ Authorization: Bearer <access_token>
 5. [Videos](#video-endpoints) - `/videos`
 6. [Shopping](#shopping-endpoints) - `/shopping`
 7. [Meals & Journaling](#meals--journaling-endpoints) - `/meals`
-8. [GraphQL](#graphql-api) - `/graphql`
+8. [Speech & Multi-language](#speech--multi-language-endpoints) - `/speech`
+9. [GraphQL](#graphql-api) - `/graphql`
 
 ---
 
@@ -516,6 +517,153 @@ Delete social post.
 
 ---
 
+## Speech & Multi-language Endpoints
+
+### `POST /speech/transcribe`
+Convert audio to text using Whisper.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "audio_base64": "base64_encoded_audio_data",
+  "language": "en",
+  "translate_to_english": false
+}
+```
+
+**Returns:**
+```json
+{
+  "text": "Transcribed text",
+  "language": "en",
+  "confidence": 0.95
+}
+```
+
+**Supported Languages:**
+- `en`: English
+- `zh`: Chinese/Mandarin
+- `ja`: Japanese
+- `ko`: Korean
+- `th`: Thai
+- `my`: Myanmar/Burmese
+
+### `POST /speech/transcribe/upload`
+Upload audio file for transcription.
+
+**Auth:** Required
+**Form Data:** `file` (audio file)
+**Query:** `language`, `translate_to_english`
+**Accepts:** MP3, WAV, M4A, FLAC, OGG (max 25MB)
+
+### `POST /speech/synthesize`
+Convert text to speech using gTTS.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "text": "Text to convert to speech",
+  "language": "en",
+  "slow": false
+}
+```
+
+**Returns:**
+```json
+{
+  "audio_base64": "base64_encoded_mp3_audio",
+  "language": "en"
+}
+```
+
+### `POST /speech/voice-command`
+Process voice command with intent detection.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "audio_base64": "base64_encoded_audio",
+  "user_language": "en"
+}
+```
+
+**Returns:**
+```json
+{
+  "command": "Find recipe for pasta carbonara",
+  "language": "en",
+  "intent": "search_recipe",
+  "parameters": {
+    "query": "pasta carbonara"
+  },
+  "confidence": 0.9
+}
+```
+
+**Supported Intents:**
+- `search_recipe`: Find recipes
+- `create_meal_plan`: Generate meal plans
+- `get_nutrition_info`: Get nutritional information
+- `analyze_food`: Analyze food from description
+- `get_recommendations`: Get AI recommendations
+- `add_to_shopping_list`: Add to shopping list
+- `log_meal`: Log meal to journal
+- `unknown`: Intent not recognized
+
+### `POST /speech/voice-command/upload`
+Upload audio file for voice command processing.
+
+**Auth:** Required
+**Form Data:** `file` (audio file)
+**Query:** `user_language` (default: "en")
+
+### `POST /speech/translate`
+Translate text between languages using LLM.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "text": "This pasta is delicious",
+  "source_lang": "en",
+  "target_lang": "ja"
+}
+```
+
+**Returns:**
+```json
+{
+  "translated_text": "このパスタは美味しいです",
+  "source_lang": "en",
+  "target_lang": "ja"
+}
+```
+
+### `GET /speech/languages`
+Get list of supported languages.
+
+**Auth:** Required
+**Returns:** List of supported languages with STT/TTS capabilities
+
+### `GET /speech/detect-language`
+Detect language from text.
+
+**Auth:** Required
+**Query:** `text`
+**Returns:**
+```json
+{
+  "detected_language": "en",
+  "language_name": "English",
+  "text": "Sample text"
+}
+```
+
+---
+
 ## GraphQL API
 
 ### Endpoint
@@ -656,6 +804,13 @@ GET /meals/journal
 # Social
 POST /meals/social
 GET /meals/social/feed
+
+# Speech & Multi-language
+POST /speech/transcribe
+POST /speech/synthesize
+POST /speech/voice-command
+POST /speech/translate
+GET /speech/languages
 ```
 
 ---

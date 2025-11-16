@@ -45,6 +45,15 @@ class HealthGoal(str, enum.Enum):
     GENERAL_WELLNESS = "general_wellness"
 
 
+class Language(str, enum.Enum):
+    ENGLISH = "en"
+    CHINESE = "zh"
+    JAPANESE = "ja"
+    KOREAN = "ko"
+    THAI = "th"
+    MYANMAR = "my"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -83,7 +92,7 @@ class User(Base):
     # Settings
     is_active = Column(Boolean, default=True)
     is_premium = Column(Boolean, default=False)
-    language = Column(String, default="en")
+    language = Column(SQLEnum(Language), default=Language.ENGLISH)  # Preferred language for speech & UI
     timezone = Column(String, default="UTC")
 
     # Timestamps

@@ -14,6 +14,7 @@ from app.api import (
     videos_router,
     shopping_router,
     meals_router,
+    speech_router,
 )
 
 settings = get_settings()
@@ -60,6 +61,7 @@ app.include_router(ai_router)
 app.include_router(videos_router)
 app.include_router(shopping_router)
 app.include_router(meals_router)
+app.include_router(speech_router)
 
 # GraphQL router
 graphql_app = GraphQLRouter(schema)
@@ -81,6 +83,7 @@ async def root():
             "videos": "/videos",
             "shopping": "/shopping",
             "meals": "/meals",
+            "speech": "/speech",
             "graphql": "/graphql",
             "docs": "/docs",
         },
@@ -95,7 +98,11 @@ async def root():
             "Meal Planning & Journaling",
             "Social Sharing",
             "Cross-Cultural Meal Similarity",
-            "Beverage Pairing AI"
+            "Beverage Pairing AI",
+            "Speech-to-Text & Text-to-Speech (Whisper & gTTS)",
+            "Voice Commands with Intent Detection",
+            "Multi-language Support (6 Languages: EN, ZH, JA, KO, TH, MY)",
+            "AI-Powered Translation"
         ],
         "documentation": {
             "swagger": "/docs",
