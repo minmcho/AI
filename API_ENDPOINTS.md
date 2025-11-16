@@ -294,6 +294,134 @@ Generate AI meal plan using full multi-agent system.
 **Auth:** Required
 **Query:** `days`, `preferences`
 
+### `POST /ai/blip/caption`
+Generate natural language caption for food image using BLIP.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "image_data": "data:image/jpeg;base64,/9j/4AAQ...",
+  "max_length": 50,
+  "num_beams": 3,
+  "conditional_text": null
+}
+```
+
+**Returns:**
+```json
+{
+  "caption": "a plate of pasta carbonara with bacon and parmesan cheese",
+  "confidence": 0.9,
+  "model": "BLIP"
+}
+```
+
+**Features:**
+- Natural language image descriptions
+- Conditional caption generation
+- High-quality beam search
+
+**Use Cases:**
+- Recipe documentation
+- Alt text generation
+- Food blog content
+- Social media captions
+
+### `POST /ai/blip/caption/upload`
+Generate caption from uploaded image file.
+
+**Auth:** Required
+**Form Data:** `file` (image file)
+**Query:** `max_length`, `num_beams`, `conditional_text`
+**Accepts:** JPG, PNG, WEBP (max 10MB)
+
+### `POST /ai/blip/vqa`
+Answer questions about food images using BLIP Visual Question Answering.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "image_data": "data:image/jpeg;base64,/9j/4AAQ...",
+  "question": "What type of food is this?",
+  "max_length": 50
+}
+```
+
+**Returns:**
+```json
+{
+  "question": "What type of food is this?",
+  "answer": "pasta carbonara",
+  "confidence": 0.9,
+  "model": "BLIP-VQA"
+}
+```
+
+**Example Questions:**
+- "What type of food is this?"
+- "What are the main ingredients?"
+- "How is this food cooked?"
+- "What cuisine is this?"
+- "How many servings?"
+
+**Use Cases:**
+- Ingredient identification
+- Dietary restriction checking
+- Cuisine classification
+- Portion estimation
+
+### `POST /ai/blip/vqa/upload`
+Answer questions about uploaded image file.
+
+**Auth:** Required
+**Form Data:** `file` (image file)
+**Query:** `question`, `max_length`
+
+### `POST /ai/blip/analyze-food`
+Comprehensive food analysis combining BLIP captioning and VQA.
+
+**Auth:** Required
+**Body:**
+```json
+{
+  "image_data": "data:image/jpeg;base64,/9j/4AAQ..."
+}
+```
+
+**Returns:**
+```json
+{
+  "caption": "a delicious plate of pasta carbonara",
+  "food_type": "pasta carbonara",
+  "ingredients": "pasta, bacon, eggs, parmesan cheese",
+  "cooking_method": "boiled pasta with sautéed bacon and cream sauce",
+  "cuisine": "Italian",
+  "servings": "1-2",
+  "confidence": 0.85
+}
+```
+
+**Features:**
+- Runs multiple BLIP models for comprehensive analysis
+- Structured output with 6 key attributes
+- High accuracy on clear food images
+
+**Processing:**
+1. BLIP Captioning for description
+2. BLIP VQA for food type
+3. BLIP VQA for ingredients
+4. BLIP VQA for cooking method
+5. BLIP VQA for cuisine
+6. BLIP VQA for servings
+
+### `POST /ai/blip/analyze-food/upload`
+Comprehensive food analysis from uploaded image file.
+
+**Auth:** Required
+**Form Data:** `file` (image file)
+
 ---
 
 ## Video Endpoints

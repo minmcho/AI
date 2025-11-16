@@ -92,6 +92,8 @@ async def root():
             "Personalized Nutrition Planning",
             "AI Recipe Discovery & Similarity Search",
             "Food Image Analysis (Vision AI)",
+            "BLIP Image Captioning (Natural Language Descriptions)",
+            "BLIP Visual Question Answering (Ask Questions About Food Images)",
             "Cooking Assistant Chat (LLaMA 3.2)",
             "Video Recommendations (YouTube, TikTok, Instagram)",
             "MCP Shopping Lists with Price Optimization",

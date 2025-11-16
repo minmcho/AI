@@ -40,6 +40,9 @@ A comprehensive AI-powered meal planning, nutrition tracking, and culinary assis
 - **LLaMA 3.2**: Conversational AI and text generation
 - **Vision Transformer (ViT)**: Food image recognition and analysis
 - **CLIP**: Multi-modal image-text embeddings
+- **BLIP**: Image captioning and Visual Question Answering
+  - BLIP Captioning: Natural language descriptions of food images
+  - BLIP VQA: Answer questions about food images
 - **Sentence Transformers**: Semantic search and similarity
 - **OpenAI Whisper**: Multilingual speech recognition (6 languages)
 - **gTTS**: Google Text-to-Speech for voice output

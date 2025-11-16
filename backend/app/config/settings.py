@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     VISION_MODEL: str = "google/vit-base-patch16-224"
     SENTENCE_TRANSFORMER_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
 
+    # BLIP Models
+    BLIP_CAPTION_MODEL: str = "Salesforce/blip-image-captioning-base"
+    BLIP_VQA_MODEL: str = "Salesforce/blip-vqa-base"
+    # Options: base, large (larger = better quality but slower)
+
     # Speech & Multi-language
     WHISPER_MODEL_SIZE: str = "base"  # tiny, base, small, medium, large
     DEFAULT_LANGUAGE: str = "en"  # en, zh, ja, ko, th, my
