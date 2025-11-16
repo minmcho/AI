@@ -6,8 +6,15 @@ from contextlib import asynccontextmanager
 from app.config.settings import get_settings
 from app.schemas.graphql_schema import schema
 from app.db.database import init_db
-from app.api.auth import router as auth_router
-from app.api.profile import router as profile_router
+from app.api import (
+    auth_router,
+    profile_router,
+    recipes_router,
+    ai_router,
+    videos_router,
+    shopping_router,
+    meals_router,
+)
 
 settings = get_settings()
 
@@ -32,7 +39,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="AI-Powered Meal Planning and Nutrition Assistant",
+    description="AI-Powered Meal Planning and Nutrition Assistant with Multi-Agent Intelligence",
     lifespan=lifespan,
 )
 
@@ -48,6 +55,11 @@ app.add_middleware(
 # API routers
 app.include_router(auth_router)
 app.include_router(profile_router)
+app.include_router(recipes_router)
+app.include_router(ai_router)
+app.include_router(videos_router)
+app.include_router(shopping_router)
+app.include_router(meals_router)
 
 # GraphQL router
 graphql_app = GraphQLRouter(schema)
@@ -56,27 +68,40 @@ app.include_router(graphql_app, prefix="/graphql")
 
 @app.get("/")
 async def root():
-    """Root endpoint"""
+    """Root endpoint with API overview"""
     return {
         "app": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "status": "running",
         "endpoints": {
-            "auth": {
-                "register": "/auth/register",
-                "login": "/auth/login",
-                "me": "/auth/me",
-                "refresh": "/auth/refresh",
-                "change_password": "/auth/change-password",
-            },
-            "profile": {
-                "update": "/profile/update",
-                "recommendations": "/profile/nutrition-recommendations",
-                "meal_plan": "/profile/generate-meal-plan",
-                "health_summary": "/profile/health-summary",
-            },
+            "auth": "/auth",
+            "profile": "/profile",
+            "recipes": "/recipes",
+            "ai": "/ai",
+            "videos": "/videos",
+            "shopping": "/shopping",
+            "meals": "/meals",
             "graphql": "/graphql",
             "docs": "/docs",
+        },
+        "features": [
+            "User Authentication & Registration",
+            "Personalized Nutrition Planning",
+            "AI Recipe Discovery & Similarity Search",
+            "Food Image Analysis (Vision AI)",
+            "Cooking Assistant Chat (LLaMA 3.2)",
+            "Video Recommendations (YouTube, TikTok, Instagram)",
+            "MCP Shopping Lists with Price Optimization",
+            "Meal Planning & Journaling",
+            "Social Sharing",
+            "Cross-Cultural Meal Similarity",
+            "Beverage Pairing AI"
+        ],
+        "documentation": {
+            "swagger": "/docs",
+            "redoc": "/redoc",
+            "endpoints_guide": "API_ENDPOINTS.md",
+            "auth_guide": "AUTH_GUIDE.md"
         }
     }
 
@@ -88,6 +113,13 @@ async def health_check():
         "status": "healthy",
         "database": "connected",
         "ai_models": "ready",
+        "services": {
+            "llm": "LLaMA 3.2 (Ollama)",
+            "vision": "Vision Transformer",
+            "embeddings": "Sentence Transformers",
+            "vector_db": "ChromaDB",
+            "multi_agent": "CrewAI"
+        }
     }
 
 
