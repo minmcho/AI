@@ -10,7 +10,12 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @StateObject private var viewModel = HomeViewModel()
+    @StateObject private var healthKit = HealthKitManager.shared
+
     @State private var showScanner = false
+    @State private var showBarcodeScanner = false
+    @State private var showARPortionEstimator = false
+    @State private var showHealthKitAuth = false
 
     var body: some View {
         NavigationView {
@@ -44,11 +49,50 @@ struct HomeView: View {
             .sheet(isPresented: $showScanner) {
                 FoodScannerView()
             }
+            .sheet(isPresented: $showBarcodeScanner) {
+                BarcodeScannerView()
+            }
+            .sheet(isPresented: $showARPortionEstimator) {
+                ARPortionEstimatorView()
+            }
+            .alert("Apple Health", isPresented: $showHealthKitAuth) {
+                Button("Allow") {
+                    Task {
+                        try? await healthKit.requestAuthorization()
+                        try? await healthKit.fetchTodayNutrition()
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Allow NutriVision AI to read and write nutrition data to Apple Health?")
+            }
             .onAppear {
                 Task {
                     await viewModel.loadDashboardData()
+
+                    // Load HealthKit data if authorized
+                    if healthKit.checkAuthorizationStatus() {
+                        try? await healthKit.fetchTodayNutrition()
+                    }
+
+                    // Donate Siri shortcuts
+                    ShortcutsManager.shared.donateGetNutritionShortcut()
+                    ShortcutsManager.shared.donateLogWaterShortcut()
                 }
             }
+        }
+    }
+
+    // MARK: - Methods
+
+    private func requestHealthKitAuth() {
+        if healthKit.checkAuthorizationStatus() {
+            // Already authorized
+            Task {
+                try? await healthKit.fetchTodayNutrition()
+            }
+        } else {
+            showHealthKitAuth = true
         }
     }
 
@@ -102,27 +146,27 @@ struct HomeView: View {
                 }
 
                 QuickActionCard(
-                    icon: "magnifyingglass",
-                    title: "Search Recipes",
+                    icon: "barcode.viewfinder",
+                    title: "Barcode",
                     color: .green
                 ) {
-                    // Navigate to recipe search
+                    showBarcodeScanner = true
                 }
 
                 QuickActionCard(
-                    icon: "calendar",
-                    title: "Meal Plan",
+                    icon: "arkit",
+                    title: "AR Portion",
                     color: .orange
                 ) {
-                    // Navigate to meal planner
+                    showARPortionEstimator = true
                 }
 
                 QuickActionCard(
-                    icon: "mic.fill",
-                    title: "Voice Command",
-                    color: .purple
+                    icon: "heart.text.square.fill",
+                    title: "Apple Health",
+                    color: .red
                 ) {
-                    // Navigate to voice commands
+                    requestHealthKitAuth()
                 }
             }
         }
@@ -138,7 +182,7 @@ struct HomeView: View {
             HStack(spacing: 12) {
                 StatsCard(
                     title: "Calories",
-                    value: viewModel.todayCalories,
+                    value: healthKit.isAuthorized ? Int(healthKit.todayCalories) : viewModel.todayCalories,
                     goal: authViewModel.currentUser?.targetCalories ?? 2000,
                     color: .blue,
                     unit: "kcal"
@@ -146,7 +190,7 @@ struct HomeView: View {
 
                 StatsCard(
                     title: "Protein",
-                    value: Int(viewModel.todayProtein),
+                    value: healthKit.isAuthorized ? Int(healthKit.todayProtein) : Int(viewModel.todayProtein),
                     goal: Int(authViewModel.currentUser?.targetProteinG ?? 150),
                     color: .red,
                     unit: "g"
@@ -156,7 +200,7 @@ struct HomeView: View {
             HStack(spacing: 12) {
                 StatsCard(
                     title: "Carbs",
-                    value: Int(viewModel.todayCarbs),
+                    value: healthKit.isAuthorized ? Int(healthKit.todayCarbs) : Int(viewModel.todayCarbs),
                     goal: Int(authViewModel.currentUser?.targetCarbsG ?? 200),
                     color: .orange,
                     unit: "g"
@@ -164,10 +208,21 @@ struct HomeView: View {
 
                 StatsCard(
                     title: "Fats",
-                    value: Int(viewModel.todayFats),
+                    value: healthKit.isAuthorized ? Int(healthKit.todayFat) : Int(viewModel.todayFats),
                     goal: Int(authViewModel.currentUser?.targetFatG ?? 65),
                     color: .yellow,
                     unit: "g"
+                )
+            }
+
+            // Water tracking
+            if healthKit.isAuthorized {
+                StatsCard(
+                    title: "Water",
+                    value: Int(healthKit.todayWater),
+                    goal: 2000,
+                    color: .cyan,
+                    unit: "ml"
                 )
             }
         }

@@ -16,6 +16,14 @@ struct SettingsView: View {
     @State private var biometricsEnabled = false
     @State private var showLanguageSelection = false
 
+    @State private var healthKitEnabled = false
+    @State private var mealRemindersEnabled = false
+    @State private var waterRemindersEnabled = false
+    @State private var showMealReminderSettings = false
+
+    @StateObject private var healthKit = HealthKitManager.shared
+    @StateObject private var notificationManager = NotificationManager.shared
+
     var body: some View {
         NavigationView {
             List {
@@ -44,6 +52,94 @@ struct SettingsView: View {
                     }
                 }
 
+                // Apple Health Integration
+                Section(header: Text("Apple Health"),
+                        footer: Text("Sync nutrition data with Apple Health app")) {
+                    Toggle(isOn: $healthKitEnabled) {
+                        HStack {
+                            Image(systemName: "heart.text.square.fill")
+                                .foregroundColor(.red)
+                            Text("Apple Health Sync")
+                        }
+                    }
+                    .tint(.green)
+                    .onChange(of: healthKitEnabled) { enabled in
+                        if enabled {
+                            Task {
+                                try? await healthKit.requestAuthorization()
+                            }
+                        }
+                    }
+                }
+
+                // Meal Reminders
+                Section(header: Text("Meal Reminders"),
+                        footer: Text("Get notifications for breakfast, lunch, and dinner")) {
+                    Toggle(isOn: $mealRemindersEnabled) {
+                        HStack {
+                            Image(systemName: "bell.badge.fill")
+                                .foregroundColor(.orange)
+                            Text("Meal Reminders")
+                        }
+                    }
+                    .tint(.green)
+                    .onChange(of: mealRemindersEnabled) { enabled in
+                        if enabled {
+                            Task {
+                                try? await notificationManager.requestAuthorization()
+                                let settings = MealReminderSettings.default
+                                try? await notificationManager.scheduleAllMealReminders(
+                                    breakfast: settings.breakfastTime,
+                                    lunch: settings.lunchTime,
+                                    dinner: settings.dinnerTime
+                                )
+                            }
+                        } else {
+                            Task {
+                                await notificationManager.removeMealReminders()
+                            }
+                        }
+                    }
+
+                    if mealRemindersEnabled {
+                        Button(action: { showMealReminderSettings = true }) {
+                            HStack {
+                                Text("Customize Times")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            .foregroundColor(.primary)
+                        }
+                    }
+                }
+
+                // Water Reminders
+                Section(header: Text("Water Reminders"),
+                        footer: Text("Stay hydrated with periodic reminders")) {
+                    Toggle(isOn: $waterRemindersEnabled) {
+                        HStack {
+                            Image(systemName: "drop.fill")
+                                .foregroundColor(.cyan)
+                            Text("Water Reminders")
+                        }
+                    }
+                    .tint(.green)
+                    .onChange(of: waterRemindersEnabled) { enabled in
+                        if enabled {
+                            Task {
+                                try? await notificationManager.requestAuthorization()
+                                try? await notificationManager.scheduleWaterReminders()
+                            }
+                        } else {
+                            Task {
+                                await notificationManager.removeWaterReminders()
+                            }
+                        }
+                    }
+                }
+
                 // Notifications
                 Section(header: Text("Notifications"),
                         footer: Text("Receive reminders for meals and health goals")) {
@@ -55,6 +151,13 @@ struct SettingsView: View {
                         }
                     }
                     .tint(.green)
+                    .onChange(of: notificationsEnabled) { enabled in
+                        if enabled {
+                            Task {
+                                try? await notificationManager.requestAuthorization()
+                            }
+                        }
+                    }
                 }
 
                 // Privacy & Security
@@ -171,6 +274,12 @@ struct SettingsView: View {
                 if let user = profileViewModel.user, let language = user.language {
                     selectedLanguage = language
                 }
+
+                // Check HealthKit authorization status
+                healthKitEnabled = healthKit.checkAuthorizationStatus()
+
+                // Check notification authorization status
+                notificationsEnabled = await notificationManager.checkAuthorizationStatus()
             }
             .onChange(of: selectedLanguage) { newLanguage in
                 Task {
