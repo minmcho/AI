@@ -37,7 +37,7 @@ class SpeechService:
 
     def __init__(self):
         self.whisper_model = None
-        self.model_size = "base"  # Can be: tiny, base, small, medium, large
+        self.model_size = settings.WHISPER_MODEL_SIZE  # Can be: tiny, base, small, medium, large
 
     def _load_whisper_model(self):
         """Lazy load Whisper model"""

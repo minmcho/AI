@@ -33,6 +33,10 @@ class Settings(BaseSettings):
     VISION_MODEL: str = "google/vit-base-patch16-224"
     SENTENCE_TRANSFORMER_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
 
+    # Speech & Multi-language
+    WHISPER_MODEL_SIZE: str = "base"  # tiny, base, small, medium, large
+    DEFAULT_LANGUAGE: str = "en"  # en, zh, ja, ko, th, my
+
     # External APIs
     YOUTUBE_API_KEY: str = ""
     USDA_API_KEY: str = ""

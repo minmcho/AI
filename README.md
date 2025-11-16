@@ -17,6 +17,14 @@ A comprehensive AI-powered meal planning, nutrition tracking, and culinary assis
 - **Social Sharing**: Share your culinary journey with the community
 - **Nutrition Planning**: Personalized diet and nutrition recommendations
 
+### Speech & Multi-language Features 🎤🌍
+- **Speech-to-Text**: Convert voice to text using OpenAI Whisper (6 languages)
+- **Text-to-Speech**: Natural voice narration for recipes and instructions (gTTS)
+- **Voice Commands**: Hands-free control with intelligent intent detection
+- **Multi-language Support**: English, Chinese, Japanese, Korean, Thai, Myanmar
+- **AI Translation**: High-quality translation between all supported languages
+- **Language Detection**: Automatic language identification from text/speech
+
 ### AI/ML Technology Stack
 
 #### Multi-Agent System (CrewAI)
@@ -33,6 +41,8 @@ A comprehensive AI-powered meal planning, nutrition tracking, and culinary assis
 - **Vision Transformer (ViT)**: Food image recognition and analysis
 - **CLIP**: Multi-modal image-text embeddings
 - **Sentence Transformers**: Semantic search and similarity
+- **OpenAI Whisper**: Multilingual speech recognition (6 languages)
+- **gTTS**: Google Text-to-Speech for voice output
 - **Custom Fine-tuned Models**: Specialized for nutrition domain
 
 #### Databases
@@ -234,6 +244,21 @@ curl -X GET http://localhost:8000/profile/nutrition-recommendations \
 | `/profile/generate-meal-plan` | POST | Generate personalized meal plan |
 
 **📖 Complete Guide:** See [AUTH_GUIDE.md](AUTH_GUIDE.md) for detailed examples and API usage.
+
+### Speech & Multi-language Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/speech/transcribe` | POST | Convert audio to text (Whisper) |
+| `/speech/synthesize` | POST | Convert text to speech (gTTS) |
+| `/speech/voice-command` | POST | Process voice command with intent detection |
+| `/speech/translate` | POST | Translate text between languages |
+| `/speech/languages` | GET | List all supported languages |
+| `/speech/detect-language` | GET | Detect language from text |
+
+**Supported Languages:** English, Chinese, Japanese, Korean, Thai, Myanmar
+
+**📖 Complete Guide:** See [SPEECH_GUIDE.md](SPEECH_GUIDE.md) for detailed examples and usage.
 
 ## 📚 API Documentation
 
