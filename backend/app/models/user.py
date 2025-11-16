@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, JSON, Enum as SQLEnum
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, JSON, Enum as SQLEnum, Float
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import enum
@@ -26,6 +26,25 @@ class ActivityLevel(str, enum.Enum):
     VERY_ACTIVE = "very_active"
 
 
+class Sex(str, enum.Enum):
+    MALE = "male"
+    FEMALE = "female"
+    OTHER = "other"
+
+
+class HealthGoal(str, enum.Enum):
+    WEIGHT_LOSS = "weight_loss"
+    WEIGHT_GAIN = "weight_gain"
+    MUSCLE_GAIN = "muscle_gain"
+    MAINTAIN_WEIGHT = "maintain_weight"
+    IMPROVE_FITNESS = "improve_fitness"
+    MANAGE_DIABETES = "manage_diabetes"
+    LOWER_CHOLESTEROL = "lower_cholesterol"
+    HEART_HEALTH = "heart_health"
+    DIGESTIVE_HEALTH = "digestive_health"
+    GENERAL_WELLNESS = "general_wellness"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -47,11 +66,19 @@ class User(Base):
 
     # Health & Nutrition Goals
     age = Column(Integer)
-    weight_kg = Column(Integer)
-    height_cm = Column(Integer)
+    weight_kg = Column(Float)  # Weight in kilograms
+    height_cm = Column(Integer)  # Height in centimeters
+    sex = Column(SQLEnum(Sex))  # Biological sex for calorie calculation
     target_calories = Column(Integer)
+    target_protein_g = Column(Float)  # Daily protein target in grams
+    target_carbs_g = Column(Float)  # Daily carbs target in grams
+    target_fat_g = Column(Float)  # Daily fat target in grams
     activity_level = Column(SQLEnum(ActivityLevel))
-    health_goals = Column(JSON, default=list)  # weight_loss, muscle_gain, etc.
+    health_goals = Column(JSON, default=list)  # List of HealthGoal enums
+
+    # Medical Information
+    medical_conditions = Column(JSON, default=list)  # List of medical conditions
+    medications = Column(JSON, default=list)  # Current medications
 
     # Settings
     is_active = Column(Boolean, default=True)

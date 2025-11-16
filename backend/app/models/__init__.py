@@ -1,4 +1,4 @@
-from app.models.user import User, DietaryRestriction, ActivityLevel
+from app.models.user import User, DietaryRestriction, ActivityLevel, Sex, HealthGoal
 from app.models.recipe import Recipe, Ingredient, recipe_ingredients
 from app.models.meal import MealPlan, Meal, BeveragePairing
 from app.models.journal import JournalEntry, SocialPost
@@ -8,6 +8,8 @@ __all__ = [
     "User",
     "DietaryRestriction",
     "ActivityLevel",
+    "Sex",
+    "HealthGoal",
     "Recipe",
     "Ingredient",
     "recipe_ingredients",

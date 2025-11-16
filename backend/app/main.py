@@ -6,6 +6,8 @@ from contextlib import asynccontextmanager
 from app.config.settings import get_settings
 from app.schemas.graphql_schema import schema
 from app.db.database import init_db
+from app.api.auth import router as auth_router
+from app.api.profile import router as profile_router
 
 settings = get_settings()
 
@@ -43,6 +45,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# API routers
+app.include_router(auth_router)
+app.include_router(profile_router)
+
 # GraphQL router
 graphql_app = GraphQLRouter(schema)
 app.include_router(graphql_app, prefix="/graphql")
@@ -55,8 +61,23 @@ async def root():
         "app": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "status": "running",
-        "graphql": "/graphql",
-        "docs": "/docs",
+        "endpoints": {
+            "auth": {
+                "register": "/auth/register",
+                "login": "/auth/login",
+                "me": "/auth/me",
+                "refresh": "/auth/refresh",
+                "change_password": "/auth/change-password",
+            },
+            "profile": {
+                "update": "/profile/update",
+                "recommendations": "/profile/nutrition-recommendations",
+                "meal_plan": "/profile/generate-meal-plan",
+                "health_summary": "/profile/health-summary",
+            },
+            "graphql": "/graphql",
+            "docs": "/docs",
+        }
     }
 
 

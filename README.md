@@ -157,6 +157,84 @@ uvicorn app.main:app --reload
 
 The Next.js frontend is under development. For now, the backend GraphQL API is fully functional.
 
+## 🔐 Authentication & User Registration
+
+NutriVision AI includes comprehensive user authentication with health profile management.
+
+### Quick Start - Register & Login
+
+**1. Register a new user:**
+
+```bash
+curl -X POST http://localhost:8000/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "username": "myusername",
+    "password": "SecurePass123!",
+    "age": 30,
+    "weight_kg": 75.5,
+    "height_cm": 175,
+    "sex": "male",
+    "allergies": ["peanuts"],
+    "dietary_restrictions": ["vegetarian"],
+    "health_goals": ["weight_loss"],
+    "activity_level": "moderate"
+  }'
+```
+
+**2. Login:**
+
+```bash
+curl -X POST http://localhost:8000/auth/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=user@example.com&password=SecurePass123!"
+```
+
+**3. Use the access token for API requests:**
+
+```bash
+curl -X GET http://localhost:8000/profile/nutrition-recommendations \
+  -H "Authorization: Bearer <your_access_token>"
+```
+
+### User Profile Features
+
+**Health Profile Data:**
+- Age, weight, height, biological sex
+- Activity level (sedentary to very active)
+- Food allergies (strictly enforced in meal plans)
+- Dietary restrictions (vegan, keto, gluten-free, etc.)
+- Health goals (weight loss, muscle gain, etc.)
+- Medical conditions and medications
+
+**Automatic Calculations:**
+- **BMI** - Body Mass Index
+- **Daily Calorie Target** - Using Harris-Benedict equation
+- **Macronutrient Ratios** - Personalized protein/carbs/fat targets
+
+**Personalized AI Features:**
+- ✨ **AI Nutrition Recommendations** - Get personalized advice based on your profile
+- 🍽️ **AI Meal Plan Generator** - Creates meal plans using multi-agent system
+- ⚠️ **Allergy Safety** - AI agents verify all meals are allergen-free
+- 📊 **Health Summary** - Comprehensive overview of your metrics
+
+### Authentication Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/auth/register` | POST | Register new user with health profile |
+| `/auth/login` | POST | Login and get JWT tokens |
+| `/auth/me` | GET | Get current user profile |
+| `/auth/refresh` | POST | Refresh access token |
+| `/auth/change-password` | POST | Change user password |
+| `/profile/update` | PUT | Update user profile |
+| `/profile/health-summary` | GET | Get health metrics summary |
+| `/profile/nutrition-recommendations` | GET | Get AI nutrition advice |
+| `/profile/generate-meal-plan` | POST | Generate personalized meal plan |
+
+**📖 Complete Guide:** See [AUTH_GUIDE.md](AUTH_GUIDE.md) for detailed examples and API usage.
+
 ## 📚 API Documentation
 
 ### GraphQL Schema
