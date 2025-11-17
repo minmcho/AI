@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, JSON, ForeignKey, Date, Time
+from sqlalchemy import Column, Integer, String, Float, DateTime, JSON, ForeignKey, Date, Time, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.db.database import Base
@@ -25,7 +25,7 @@ class MealPlan(Base):
     generation_prompt = Column(String)
 
     # Status
-    is_active = Column(String, default=True)
+    is_active = Column(Boolean, default=True)
 
     # Timestamps
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -53,7 +53,7 @@ class Meal(Base):
     custom_description = Column(String)
 
     # Actual consumption tracking
-    consumed = Column(String, default=False)
+    consumed = Column(Boolean, default=False)
     consumed_at = Column(DateTime)
     portion_modifier = Column(Float, default=1.0)  # 0.5 = half portion, 2.0 = double
 
