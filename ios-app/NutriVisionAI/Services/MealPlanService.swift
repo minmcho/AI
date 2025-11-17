@@ -21,18 +21,12 @@ class MealPlanService {
 
     // MARK: - Generate Meal Plan
 
-    struct GenerateMealPlanRequest: Codable {
-        let days: Int
-        let preferences: [String: String]?
-    }
-
     func generateMealPlan(days: Int = 7, preferences: [String: String]? = nil) async throws -> MealPlan {
-        let request = GenerateMealPlanRequest(days: days, preferences: preferences)
-
+        // API expects days as query parameter, not in body
         return try await apiClient.request(
-            endpoint: Config.Endpoints.generateMealPlan,
+            endpoint: "\(Config.Endpoints.generateMealPlan)?days=\(days)",
             method: "POST",
-            body: request
+            requiresAuth: true
         )
     }
 
@@ -149,7 +143,7 @@ class MealPlanService {
         let postRequest = CreatePostRequest(content: content, imageUrl: imageUrl)
 
         return try await apiClient.request(
-            endpoint: "\(Config.Endpoints.mealPlans)/social",
+            endpoint: "/meals/social",
             method: "POST",
             body: postRequest
         )

@@ -179,15 +179,19 @@ async def login(
     )
 
 
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
+
+
 @router.post("/refresh", response_model=Token)
 async def refresh_token(
-    refresh_token: str,
+    request: RefreshTokenRequest,
     db: AsyncSession = Depends(get_db)
 ):
     """
     Refresh access token using refresh token
     """
-    payload = auth_service.decode_token(refresh_token)
+    payload = auth_service.decode_token(request.refresh_token)
 
     if not payload or payload.get("type") != "refresh":
         raise HTTPException(

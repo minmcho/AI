@@ -21,7 +21,7 @@ class VideoService {
 
     // MARK: - Search Videos
 
-    func searchVideos(query: String, limit: Int = 10) async throws -> VideoSearchResponse {
+    func searchVideos(query: String, limit: Int = 10) async throws -> [Video] {
         let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
         return try await apiClient.request(
             endpoint: "\(Config.Endpoints.searchVideos)?query=\(encodedQuery)&limit=\(limit)",
@@ -31,9 +31,14 @@ class VideoService {
 
     // MARK: - Get Trending Videos
 
-    func getTrendingVideos(limit: Int = 20) async throws -> [Video] {
+    func getTrendingVideos(cuisine: String? = nil, limit: Int = 20) async throws -> TrendingVideosResponse {
+        var endpoint = "\(Config.Endpoints.trendingVideos)?limit=\(limit)"
+        if let cuisine = cuisine {
+            endpoint += "&cuisine=\(cuisine)"
+        }
+
         return try await apiClient.request(
-            endpoint: "\(Config.Endpoints.trendingVideos)?limit=\(limit)",
+            endpoint: endpoint,
             method: "GET"
         )
     }

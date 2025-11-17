@@ -10,25 +10,30 @@ import Foundation
 // MARK: - Video
 
 struct Video: Codable, Identifiable {
-    let id: String
+    let id: String  // Mapped from video_id
     let title: String
     let description: String?
     let thumbnailUrl: String
     let videoUrl: String
     let platform: VideoPlatform
-    let duration: Int?
+    let duration: String?  // Changed from Int to String to match API
     let viewCount: Int?
-    let creator: String?
-    let createdAt: String?
+    let likeCount: Int?
+    let channelName: String?
+    let channelUrl: String?
+    let relevanceScore: Double?
 
     enum CodingKeys: String, CodingKey {
-        case id, title, description
+        case id = "video_id"  // API uses video_id
+        case title, description
         case thumbnailUrl = "thumbnail_url"
-        case videoUrl = "video_url"
+        case videoUrl = "url"  // API uses url, not video_url
         case platform, duration
         case viewCount = "view_count"
-        case creator
-        case createdAt = "created_at"
+        case likeCount = "like_count"
+        case channelName = "channel_name"  // API uses channel_name
+        case channelUrl = "channel_url"
+        case relevanceScore = "relevance_score"
     }
 }
 
@@ -66,16 +71,15 @@ enum VideoPlatform: String, Codable {
     }
 }
 
-// MARK: - Video Search Response
+// MARK: - Trending Videos Response
 
-struct VideoSearchResponse: Codable {
+struct TrendingVideosResponse: Codable {
     let videos: [Video]
-    let total: Int
-    let page: Int
-    let perPage: Int
+    let cuisine: String?
+    let totalCount: Int
 
     enum CodingKeys: String, CodingKey {
-        case videos, total, page
-        case perPage = "per_page"
+        case videos, cuisine
+        case totalCount = "total_count"
     }
 }

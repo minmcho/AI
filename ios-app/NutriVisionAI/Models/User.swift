@@ -219,7 +219,8 @@ struct LoginResponse: Codable {
     let accessToken: String
     let refreshToken: String
     let tokenType: String
-    let user: User
+    // API doesn't return user in login response, must fetch separately
+    let user: User?
 
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"

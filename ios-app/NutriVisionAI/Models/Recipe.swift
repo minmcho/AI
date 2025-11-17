@@ -16,6 +16,7 @@ struct Recipe: Codable, Identifiable {
     let instructions: [String]?
     let prepTime: Int?
     let cookTime: Int?
+    let totalTime: Int?
     let servings: Int?
     let difficulty: String?
     let cuisine: String?
@@ -26,16 +27,21 @@ struct Recipe: Codable, Identifiable {
     let fat: Double?
     let ingredients: [Ingredient]?
     let tags: [String]?
+    let dietaryTags: [String]?
+    let ratingAvg: Double?
     let createdBy: Int?
     let isPublic: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id, name, description, instructions
-        case prepTime = "prep_time"
-        case cookTime = "cook_time"
+        case prepTime = "prep_time_minutes"
+        case cookTime = "cook_time_minutes"
+        case totalTime = "total_time_minutes"
         case servings, difficulty, cuisine
         case imageUrl = "image_url"
         case calories, protein, carbs, fat, ingredients, tags
+        case dietaryTags = "dietary_tags"
+        case ratingAvg = "rating_avg"
         case createdBy = "created_by"
         case isPublic = "is_public"
     }
@@ -47,14 +53,16 @@ struct Ingredient: Codable, Identifiable {
     let id: Int?
     let recipeId: Int?
     let name: String
-    let amount: Double?
+    let amount: Double?  // Mapped to "quantity" in API
     let unit: String?
     let notes: String?
 
     enum CodingKeys: String, CodingKey {
         case id
         case recipeId = "recipe_id"
-        case name, amount, unit, notes
+        case name
+        case amount = "quantity"  // API uses "quantity"
+        case unit, notes
     }
 }
 
@@ -176,21 +184,24 @@ struct BlipFoodAnalysisResponse: Codable {
 struct JournalEntry: Codable, Identifiable {
     let id: Int
     let userId: Int
-    let mealType: MealType
-    let description: String
-    let imageUrl: String?
-    let calories: Double?
+    let title: String?
+    let content: String
+    let mealDate: String
+    let mealType: MealType?
     let mood: String?
-    let notes: String?
+    let satisfaction: Int?
+    let tags: [String]?
+    let photoUrls: [String]?
     let createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
         case userId = "user_id"
+        case title, content
+        case mealDate = "meal_date"
         case mealType = "meal_type"
-        case description
-        case imageUrl = "image_url"
-        case calories, mood, notes
+        case mood, satisfaction, tags
+        case photoUrls = "photo_urls"
         case createdAt = "created_at"
     }
 }
@@ -202,29 +213,39 @@ struct ShoppingList: Codable, Identifiable {
     let userId: Int
     let name: String
     let items: [ShoppingListItem]?
+    let totalEstimatedCost: Double?
+    let isCompleted: Bool?
     let createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
         case userId = "user_id"
         case name, items
+        case totalEstimatedCost = "total_estimated_cost"
+        case isCompleted = "is_completed"
         case createdAt = "created_at"
     }
 }
 
 struct ShoppingListItem: Codable, Identifiable {
     let id: Int
-    let listId: Int
+    let listId: Int?
     let name: String
-    let quantity: String?
+    let quantity: Double?  // Changed from String to Double to match API
     let unit: String?
     let category: String?
+    let estimatedPrice: Double?
+    let actualPrice: Double?
     var isPurchased: Bool
+    let substitutionSuggestions: [[String: String]]?
 
     enum CodingKeys: String, CodingKey {
         case id
         case listId = "list_id"
         case name, quantity, unit, category
+        case estimatedPrice = "estimated_price"
+        case actualPrice = "actual_price"
         case isPurchased = "is_purchased"
+        case substitutionSuggestions = "substitution_suggestions"
     }
 }

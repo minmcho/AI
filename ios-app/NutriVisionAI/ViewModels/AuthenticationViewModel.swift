@@ -56,8 +56,8 @@ class AuthenticationViewModel: ObservableObject {
                 refreshToken: response.refreshToken
             )
 
-            // Update state
-            currentUser = response.user
+            // Fetch user data (API doesn't return it in login response)
+            await fetchCurrentUser()
             isAuthenticated = true
             isLoading = false
 
@@ -116,8 +116,8 @@ class AuthenticationViewModel: ObservableObject {
                 refreshToken: response.refreshToken
             )
 
-            // Update state
-            currentUser = response.user
+            // Fetch user data (API doesn't return it in register response)
+            await fetchCurrentUser()
             isAuthenticated = true
             isLoading = false
 

@@ -81,8 +81,8 @@ class RecipeService {
     func filterRecipes(
         cuisine: String? = nil,
         difficulty: String? = nil,
-        maxCalories: Int? = nil,
-        dietaryRestrictions: [DietaryRestriction]? = nil
+        maxPrepTime: Int? = nil,  // Changed from maxCalories to match API
+        dietaryTags: [DietaryRestriction]? = nil  // Changed from dietaryRestrictions to match API
     ) async throws -> [Recipe] {
         var queryItems: [String] = []
 
@@ -92,12 +92,12 @@ class RecipeService {
         if let difficulty = difficulty {
             queryItems.append("difficulty=\(difficulty)")
         }
-        if let maxCalories = maxCalories {
-            queryItems.append("max_calories=\(maxCalories)")
+        if let maxPrepTime = maxPrepTime {
+            queryItems.append("max_prep_time=\(maxPrepTime)")
         }
-        if let restrictions = dietaryRestrictions {
-            let restrictionsStr = restrictions.map { $0.rawValue }.joined(separator: ",")
-            queryItems.append("dietary_restrictions=\(restrictionsStr)")
+        if let tags = dietaryTags {
+            let tagsStr = tags.map { $0.rawValue }.joined(separator: ",")
+            queryItems.append("dietary_tags=\(tagsStr)")
         }
 
         let query = queryItems.isEmpty ? "" : "?\(queryItems.joined(separator: "&"))"
