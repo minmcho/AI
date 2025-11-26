@@ -55,6 +55,25 @@ class Settings(BaseSettings):
     MAX_UPLOAD_SIZE: int = 10 * 1024 * 1024  # 10MB
     UPLOAD_DIR: str = "./uploads"
 
+    # HIPAA/GDPR Compliance
+    ENCRYPTION_KEY: str = ""  # Base64-encoded 256-bit key for PHI encryption
+    ENABLE_AUDIT_LOGGING: bool = True
+    ENABLE_PHI_ENCRYPTION: bool = True
+    DATA_RETENTION_DAYS: int = 2555  # 7 years (HIPAA requirement)
+    AUDIT_LOG_RETENTION_DAYS: int = 2190  # 6 years (HIPAA requirement)
+
+    # Privacy & Compliance
+    PRIVACY_POLICY_VERSION: str = "1.0.0"
+    PRIVACY_POLICY_URL: str = "https://nutrivision.ai/privacy"
+    TERMS_OF_SERVICE_URL: str = "https://nutrivision.ai/terms"
+    GDPR_DPO_EMAIL: str = "privacy@nutrivision.ai"  # Data Protection Officer
+    HIPAA_PRIVACY_OFFICER_EMAIL: str = "compliance@nutrivision.ai"
+
+    # iOS/Mobile Compliance
+    APP_STORE_PRIVACY_URL: str = "https://nutrivision.ai/app-privacy"
+    DATA_DELETION_AVAILABLE: bool = True
+    ACCOUNT_DELETION_AVAILABLE: bool = True
+
     class Config:
         env_file = ".env"
         case_sensitive = True

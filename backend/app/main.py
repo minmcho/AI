@@ -16,6 +16,10 @@ from app.api import (
     meals_router,
     speech_router,
 )
+# HIPAA/GDPR Compliance & Medical Nutrition Therapy
+from app.api.micronutrients import router as micronutrients_router
+from app.api.treatment_diets import router as treatment_diets_router
+from app.api.privacy import router as privacy_router
 
 settings = get_settings()
 
@@ -63,6 +67,11 @@ app.include_router(shopping_router)
 app.include_router(meals_router)
 app.include_router(speech_router)
 
+# HIPAA/GDPR Compliance & Medical Features
+app.include_router(micronutrients_router)
+app.include_router(treatment_diets_router)
+app.include_router(privacy_router)
+
 # GraphQL router
 graphql_app = GraphQLRouter(schema)
 app.include_router(graphql_app, prefix="/graphql")
@@ -84,6 +93,9 @@ async def root():
             "shopping": "/shopping",
             "meals": "/meals",
             "speech": "/speech",
+            "micronutrients": "/micronutrients",
+            "treatment_diets": "/treatment-diets",
+            "privacy": "/privacy",
             "graphql": "/graphql",
             "docs": "/docs",
         },
@@ -104,7 +116,13 @@ async def root():
             "Speech-to-Text & Text-to-Speech (Whisper & gTTS)",
             "Voice Commands with Intent Detection",
             "Multi-language Support (6 Languages: EN, ZH, JA, KO, TH, MY)",
-            "AI-Powered Translation"
+            "AI-Powered Translation",
+            "Micronutrient Tracking (Vitamins, Minerals, Trace Elements)",
+            "Medical Nutrition Therapy (Treatment-Specific Diets)",
+            "HIPAA-Compliant PHI Storage with Encryption",
+            "GDPR Compliance (Data Portability, Right to Erasure)",
+            "Comprehensive Audit Logging",
+            "iOS App Store Privacy Compliance"
         ],
         "documentation": {
             "swagger": "/docs",
@@ -128,6 +146,12 @@ async def health_check():
             "embeddings": "Sentence Transformers",
             "vector_db": "ChromaDB",
             "multi_agent": "CrewAI"
+        },
+        "compliance": {
+            "hipaa": "PHI encryption, audit logging, access controls",
+            "gdpr": "Data portability, right to erasure, consent management",
+            "ccpa": "Data deletion, opt-out mechanisms",
+            "ios_app_store": "Privacy labels, data deletion API"
         }
     }
 
