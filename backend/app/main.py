@@ -140,18 +140,62 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
+    """
+    Basic health check endpoint for load balancers and monitoring
+
+    Returns simple status for quick health verification
+    """
     return {
         "status": "healthy",
-        "database": "connected",
-        "ai_models": "ready",
-        "services": {
-            "llm": "LLaMA 3.2 (Ollama)",
-            "vision": "Vision Transformer",
-            "embeddings": "Sentence Transformers",
-            "vector_db": "ChromaDB",
-            "multi_agent": "CrewAI"
-        },
+        "timestamp": "2024-01-01T00:00:00Z",
+        "version": settings.APP_VERSION
+    }
+
+
+@app.get("/health/detailed")
+async def detailed_health_check():
+    """
+    Comprehensive health check with system metrics
+
+    Monitors:
+    - Database connectivity and performance
+    - System resources (CPU, memory, disk)
+    - AI model availability
+    - HIPAA compliance (encryption, audit logging)
+    - Service dependencies
+    """
+    from app.utils.monitoring import HealthCheck
+    from app.db.database import get_db
+
+    # Get database session for checks
+    try:
+        db_gen = get_db()
+        db = await anext(db_gen)
+        health_status = await HealthCheck.comprehensive_health_check(db)
+        await db.close()
+    except Exception as e:
+        health_status = await HealthCheck.comprehensive_health_check(None)
+        health_status["database_error"] = str(e)
+
+    return health_status
+
+
+@app.get("/metrics")
+async def get_metrics():
+    """
+    Application metrics endpoint
+
+    Returns:
+    - Request counts and error rates
+    - Response time statistics
+    - PHI access metrics
+    - Resource utilization
+    """
+    from app.utils.monitoring import metrics_collector
+
+    return {
+        "timestamp": "2024-01-01T00:00:00Z",
+        "application": metrics_collector.get_metrics(),
         "compliance": {
             "hipaa": "PHI encryption, audit logging, access controls",
             "gdpr": "Data portability, right to erasure, consent management",
