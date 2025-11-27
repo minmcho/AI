@@ -20,6 +20,8 @@ from app.api import (
 from app.api.micronutrients import router as micronutrients_router
 from app.api.treatment_diets import router as treatment_diets_router
 from app.api.privacy import router as privacy_router
+# Security Middleware
+from app.middleware.rate_limit import apply_rate_limits
 
 settings = get_settings()
 
@@ -56,6 +58,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Rate limiting middleware
+limiter = apply_rate_limits(app)
 
 # API routers
 app.include_router(auth_router)
