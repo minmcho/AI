@@ -15,6 +15,7 @@ from app.api import (
     shopping_router,
     meals_router,
     speech_router,
+    clinical_router,
 )
 
 settings = get_settings()
@@ -62,6 +63,7 @@ app.include_router(videos_router)
 app.include_router(shopping_router)
 app.include_router(meals_router)
 app.include_router(speech_router)
+app.include_router(clinical_router)
 
 # GraphQL router
 graphql_app = GraphQLRouter(schema)
@@ -84,6 +86,7 @@ async def root():
             "shopping": "/shopping",
             "meals": "/meals",
             "speech": "/speech",
+            "clinical": "/clinical",
             "graphql": "/graphql",
             "docs": "/docs",
         },
@@ -104,7 +107,12 @@ async def root():
             "Speech-to-Text & Text-to-Speech (Whisper & gTTS)",
             "Voice Commands with Intent Detection",
             "Multi-language Support (6 Languages: EN, ZH, JA, KO, TH, MY)",
-            "AI-Powered Translation"
+            "AI-Powered Translation",
+            "Clinical Nutrition (Medical Conditions, Lab Results, Therapeutic Diets)",
+            "Nutrient Deficiency Tracking & Supplementation",
+            "Medication-Nutrient Interaction Warnings",
+            "Clinical Nutritional Assessments",
+            "Compliance Reporting for Therapeutic Diets"
         ],
         "documentation": {
             "swagger": "/docs",

@@ -6,6 +6,7 @@ from app.api.videos import router as videos_router
 from app.api.shopping import router as shopping_router
 from app.api.meals import router as meals_router
 from app.api.speech import router as speech_router
+from app.api.clinical import router as clinical_router
 
 __all__ = [
     "auth_router",
@@ -16,4 +17,5 @@ __all__ = [
     "shopping_router",
     "meals_router",
     "speech_router",
+    "clinical_router",
 ]

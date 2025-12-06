@@ -63,6 +63,16 @@ struct Config {
         static let mealPlans = "/meals/plans"
         static let journal = "/meals/journal"
         static let socialFeed = "/meals/social/feed"
+
+        // Clinical Nutrition
+        static let clinicalConditions = "/clinical/conditions"
+        static let labResults = "/clinical/lab-results"
+        static let nutrientDeficiencies = "/clinical/deficiencies"
+        static let therapeuticDiets = "/clinical/therapeutic-diets"
+        static let clinicalAssessments = "/clinical/assessments"
+        static let medicationInteractions = "/clinical/medication-interactions"
+        static let complianceReport = "/clinical/reports/compliance"
+        static let nutritionStatusReport = "/clinical/reports/nutrition-status"
     }
 
     // MARK: - App Configuration

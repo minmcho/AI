@@ -85,9 +85,9 @@ class User(Base):
     activity_level = Column(SQLEnum(ActivityLevel))
     health_goals = Column(JSON, default=list)  # List of HealthGoal enums
 
-    # Medical Information
-    medical_conditions = Column(JSON, default=list)  # List of medical conditions
-    medications = Column(JSON, default=list)  # Current medications
+    # Medical Information (deprecated - moved to clinical nutrition models)
+    legacy_medical_conditions = Column("medical_conditions", JSON, default=list)  # Old JSON list (deprecated)
+    legacy_medications = Column("medications", JSON, default=list)  # Old JSON list (deprecated)
 
     # Settings
     is_active = Column(Boolean, default=True)
@@ -104,3 +104,11 @@ class User(Base):
     journal_entries = relationship("JournalEntry", back_populates="user", cascade="all, delete-orphan")
     shopping_lists = relationship("ShoppingList", back_populates="user", cascade="all, delete-orphan")
     social_posts = relationship("SocialPost", back_populates="user", cascade="all, delete-orphan")
+
+    # Clinical Nutrition Relationships
+    medical_conditions = relationship("MedicalCondition", back_populates="user", cascade="all, delete-orphan")
+    lab_results = relationship("LabResult", back_populates="user", cascade="all, delete-orphan")
+    nutrient_deficiencies = relationship("NutrientDeficiency", back_populates="user", cascade="all, delete-orphan")
+    therapeutic_diets = relationship("TherapeuticDiet", back_populates="user", cascade="all, delete-orphan")
+    medication_interactions = relationship("MedicationNutrientInteraction", back_populates="user", cascade="all, delete-orphan")
+    clinical_assessments = relationship("ClinicalAssessment", back_populates="user", cascade="all, delete-orphan")
