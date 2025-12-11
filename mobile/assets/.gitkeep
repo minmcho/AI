@@ -1,0 +1,5 @@
+# This file ensures the assets directory is tracked by git
+# Place your app icons, splash screens, and other assets here
+
+# Note: AI model files (.onnx, .bin, .gguf) should NOT be committed
+# Add them to .gitignore and download separately

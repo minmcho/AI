@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+.expo/
+.expo-shared/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# Testing
+coverage/
+
+# Expo
+dist/
+.expo/
+.expo-shared/
+
+# React Native
+.expo
+.expo-shared
+__generated__
+
+# macOS
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.log
+*.lock
+
+# AI Models (too large for git)
+assets/models/*.onnx
+assets/models/*.bin
+assets/models/*.tflite
+assets/models/*.mlmodel
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

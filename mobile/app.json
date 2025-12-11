@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "Health Rash AI",
+    "slug": "health-rash-ai-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.healthrash.ai",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs camera access to take photos of skin rashes for medical analysis.",
+        "NSMicrophoneUsageDescription": "This app needs microphone access to record your medical questions in your native language.",
+        "NSPhotoLibraryUsageDescription": "This app needs photo library access to save and retrieve rash photos."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.healthrash.ai",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Health Rash AI to access your camera to take photos of skin rashes."
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow Health Rash AI to access your microphone to record medical questions."
+        }
+      ]
+    ]
+  }
+}
