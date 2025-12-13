@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import UIKit
+import Combine
 
 class CameraManager: NSObject, ObservableObject {
     @Published var isAuthorized = false

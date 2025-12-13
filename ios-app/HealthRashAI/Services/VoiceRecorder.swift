@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import Speech
+import Combine
 
 class VoiceRecorder: NSObject, ObservableObject {
     @Published var isRecording = false
