@@ -60,7 +60,6 @@ Xcode created some default files. Delete them:
    - ✅ `ContentView.swift`
    - ✅ `Views/` folder (all files inside)
    - ✅ `Services/` folder (all files inside)
-   - ✅ `Info.plist`
 
 5. **Configure options**:
    - ✅ Check "Copy items if needed"
@@ -68,19 +67,25 @@ Xcode created some default files. Delete them:
    - ✅ Add to targets: HealthRashAI
    - Click **Add**
 
-### Step 6: Configure Info.plist
+### Step 6: Add Privacy Permissions ⚠️ **REQUIRED**
 
-1. Select project in navigator
-2. Select **HealthRashAI** target
-3. Go to **Info** tab
-4. Click **Custom iOS Target Properties**
-5. **Add** these keys (click `+`):
+**IMPORTANT:** You must add these or the app will crash when accessing camera/mic.
+
+1. In Project Navigator, click the **project name** (top of sidebar)
+2. Select **HealthRashAI** target (under TARGETS)
+3. Click **Info** tab
+4. Under **Custom iOS Target Properties**, click **+** for each key:
+
+**Add ALL 4 of these keys:**
 
 | Key | Type | Value |
 |-----|------|-------|
-| Privacy - Camera Usage Description | String | Health Rash AI needs camera access to take photos of skin rashes for medical analysis. All processing is done locally on your device. |
-| Privacy - Microphone Usage Description | String | Health Rash AI needs microphone access to record your medical questions in your native language. Audio is processed locally and never sent to external servers. |
-| Privacy - Speech Recognition Usage Description | String | Health Rash AI uses speech recognition to convert your spoken questions into text for AI analysis. All processing is done on-device to protect your privacy. |
+| `Privacy - Camera Usage Description` | String | `We need camera access to capture photos of skin rashes for AI-powered medical analysis. All processing is done locally on your device for complete privacy.` |
+| `Privacy - Microphone Usage Description` | String | `We need microphone access to record your questions about the skin rash. Voice recordings are processed locally and never sent to external servers.` |
+| `Privacy - Speech Recognition Usage Description` | String | `We need speech recognition to convert your spoken questions into text. All processing happens on your device to maintain your privacy.` |
+| `Privacy - Photo Library Additions Usage Description` | String | `We need permission to save analysis results to your photo library if you choose to export them.` |
+
+**📖 Need help?** See `PRIVACY_PERMISSIONS.md` for detailed instructions.
 
 ### Step 7: Build Settings
 
@@ -107,7 +112,7 @@ Verify these settings:
 
 - [ ] Project opens without errors
 - [ ] All source files visible in Project Navigator
-- [ ] Info.plist has 3 privacy descriptions
+- [ ] ⚠️ **All 4 privacy keys added in Info tab**
 - [ ] Build succeeds (⌘ + B)
 - [ ] App runs in simulator
 - [ ] No red errors in Xcode
