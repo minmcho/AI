@@ -4,6 +4,7 @@ import UIKit
 
 class CameraManager: NSObject, ObservableObject {
     @Published var isAuthorized = false
+    @Published var isFlashOn = false
 
     private var captureSession: AVCaptureSession?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -63,13 +64,16 @@ class CameraManager: NSObject, ObservableObject {
         }
 
         photoCaptureCompletion = completion
-
         let settings = AVCapturePhotoSettings()
+        settings.flashMode = isFlashOn ? .on : .off
         photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+
+    func toggleFlash() {
+        isFlashOn.toggle()
     }
 }
 
-// MARK: - Photo Capture Delegate
 extension CameraManager: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation(),
@@ -77,7 +81,6 @@ extension CameraManager: AVCapturePhotoCaptureDelegate {
             photoCaptureCompletion?(nil)
             return
         }
-
         photoCaptureCompletion?(image)
     }
 }
