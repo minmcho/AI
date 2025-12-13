@@ -88,9 +88,11 @@ struct CameraView: View {
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.black.opacity(0.6))
-                .backdrop(BlurView(style: .systemMaterialDark))
+            ZStack {
+                BlurView(style: .systemMaterialDark)
+                Color.black.opacity(0.6)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         )
         .padding(.horizontal)
     }
