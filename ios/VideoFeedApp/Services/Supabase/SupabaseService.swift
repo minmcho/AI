@@ -10,7 +10,8 @@ actor SupabaseService {
     private var realtimeTasks: [String: Task<Void, Never>] = [:]
 
     init() {
-        self.url = URL(string: ProcessInfo.processInfo.environment["SUPABASE_URL"] ?? "")!
+        let rawURL = ProcessInfo.processInfo.environment["SUPABASE_URL"] ?? "https://placeholder.supabase.co"
+        self.url = URL(string: rawURL) ?? URL(string: "https://placeholder.supabase.co")!
         self.anonKey = ProcessInfo.processInfo.environment["SUPABASE_ANON_KEY"] ?? ""
     }
 

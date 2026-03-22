@@ -456,27 +456,9 @@ struct CreateChallengeView: View {
     }
 }
 
-// MARK: - Shared UI components
+// PrimaryButton defined in DubPanelView.swift
 
-struct PrimaryButton: View {
-    let label: String
-    let icon: String
-    let color: Color
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Label(label, systemImage: icon)
-                .font(.system(size: 16, weight: .bold))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
-                .background(color)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
-        }
-        .buttonStyle(.plain)
-    }
-}
+// MARK: - Category Chip
 
 struct CategoryChip: View {
     let label: String
@@ -497,11 +479,4 @@ struct CategoryChip: View {
     }
 }
 
-extension Date {
-    var relativeShort: String {
-        let diff = timeIntervalSinceNow
-        if diff < 3600  { return "\(Int(diff/60))m left" }
-        if diff < 86400 { return "\(Int(diff/3600))h left" }
-        return "\(Int(diff/86400))d left"
-    }
-}
+// Date.relativeShort defined in Core/Extensions.swift

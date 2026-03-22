@@ -226,10 +226,4 @@ struct FilterChip: View {
 
 private struct EmptyBody: Encodable {}
 
-extension TimeInterval {
-    var mmss: String {
-        let m = Int(self) / 60
-        let s = Int(self) % 60
-        return String(format: "%d:%02d", m, s)
-    }
-}
+// TimeInterval.mmss defined in Core/Extensions.swift

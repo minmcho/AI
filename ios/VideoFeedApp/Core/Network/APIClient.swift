@@ -14,8 +14,9 @@ enum APIError: LocalizedError {
 
 actor APIClient {
     static let shared = APIClient()
-    private let goBase = URL(string: ProcessInfo.processInfo.environment["GO_API_URL"] ?? "http://localhost:8080")!
-    private let pyBase = URL(string: ProcessInfo.processInfo.environment["PY_API_URL"] ?? "http://localhost:8000")!
+    // nonisolated so callers can pass these as `base:` arguments without `await`
+    nonisolated let goBase = URL(string: ProcessInfo.processInfo.environment["GO_API_URL"] ?? "http://localhost:8080")!
+    nonisolated let pyBase = URL(string: ProcessInfo.processInfo.environment["PY_API_URL"] ?? "http://localhost:8000")!
 
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
@@ -38,6 +39,18 @@ actor APIClient {
         let url = base.appending(path: path)
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try JSONEncoder.iso8601.encode(body)
+        let (data, resp) = try await session.data(for: req)
+        guard let http = resp as? HTTPURLResponse else { throw APIError.badResponse(0) }
+        guard (200..<300).contains(http.statusCode) else { throw APIError.badResponse(http.statusCode) }
+        return try JSONDecoder.iso8601.decode(T.self, from: data)
+    }
+
+    func put<B: Encodable, T: Decodable>(_ path: String, body: B, base: URL) async throws -> T {
+        let url = base.appending(path: path)
+        var req = URLRequest(url: url)
+        req.httpMethod = "PUT"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONEncoder.iso8601.encode(body)
         let (data, resp) = try await session.data(for: req)

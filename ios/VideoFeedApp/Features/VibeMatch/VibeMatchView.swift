@@ -425,12 +425,4 @@ func badgeEmoji(_ badgeID: String) -> String {
     return map[badgeID] ?? "🏅"
 }
 
-extension Int {
-    var abbreviated: String {
-        switch self {
-        case 1_000_000...: return "\(self / 1_000_000)M"
-        case 1_000...:     return "\(self / 1_000)K"
-        default:           return "\(self)"
-        }
-    }
-}
+// Int.abbreviated defined in Core/Extensions.swift

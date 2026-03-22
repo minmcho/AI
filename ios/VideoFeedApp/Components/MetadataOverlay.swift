@@ -7,7 +7,7 @@ struct MetadataOverlay: View {
         VStack(alignment: .leading, spacing: 8) {
             // Author
             HStack(spacing: 8) {
-                AsyncImage(url: video.author.avatarURL) { img in
+                AsyncImage(url: video.author?.avatarURL) { img in
                     img.resizable().scaledToFill()
                 } placeholder: {
                     Circle().fill(.gray.opacity(0.4))
@@ -16,7 +16,7 @@ struct MetadataOverlay: View {
                 .clipShape(Circle())
                 .overlay(Circle().stroke(.white, lineWidth: 1.5))
 
-                Text("@\(video.author.username)")
+                Text("@\(video.author?.username ?? "unknown")")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(.white)
             }

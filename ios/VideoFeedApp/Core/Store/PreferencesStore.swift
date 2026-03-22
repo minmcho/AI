@@ -32,7 +32,7 @@ final class PreferencesStore {
         isSaving = true
         defer { isSaving = false }
         do {
-            let _: EmptyResponse = try await client.post(
+            let _: EmptyResponse = try await client.put(
                 "/api/v1/preferences/\(profileID)",
                 body: preferences,
                 base: client.goBase

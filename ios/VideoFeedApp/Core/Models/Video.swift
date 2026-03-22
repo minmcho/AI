@@ -4,7 +4,7 @@ struct Video: Identifiable, Codable, Hashable {
     let id: String
     let url: URL
     let thumbnailURL: URL
-    let author: Author
+    let author: Author?
     let caption: String
     var likes: Int
     var comments: Int
@@ -39,6 +39,12 @@ struct AgentJob: Identifiable, Codable {
 
     enum JobStatus: String, Codable { case pending, running, completed, failed }
     enum JobType: String, Codable { case transcription, translation, tts, music, videoEdit = "video_edit" }
+
+    enum CodingKeys: String, CodingKey {
+        case id, status, result, error
+        case jobType   = "job_type"
+        case createdAt = "created_at"
+    }
 }
 
 struct DJSettings {

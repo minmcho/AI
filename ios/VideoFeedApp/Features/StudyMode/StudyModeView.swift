@@ -234,7 +234,7 @@ struct LofiTrackCard: View {
     var body: some View {
         Button(action: onTap) {
             ZStack(alignment: .bottomLeading) {
-                AsyncImage(url: URL(string: video.thumbnail ?? "")) { img in
+                AsyncImage(url: video.thumbnailURL) { img in
                     img.resizable().scaledToFill()
                 } placeholder: {
                     RoundedRectangle(cornerRadius: 12).fill(.white.opacity(0.08))
@@ -313,7 +313,7 @@ struct MiniStatCard: View {
 
 // MARK: - ViewModel
 
-typealias VideoItem = VideoPost  // reuse the existing video model
+typealias VideoItem = Video  // reuse the existing Video model
 
 @Observable
 final class StudyModeViewModel {

@@ -68,9 +68,4 @@ enum MusicMood: String, CaseIterable {
     case energetic, chill, dramatic, uplifting, dark
 }
 
-// Make APIClient.pyBase accessible to OpenClawService
-extension APIClient {
-    var pyBase: URL {
-        URL(string: ProcessInfo.processInfo.environment["PY_API_URL"] ?? "http://localhost:8000")!
-    }
-}
+// APIClient.pyBase is nonisolated let — accessible directly without await.
