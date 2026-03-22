@@ -1,0 +1,207 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+		/* Begin PBXBuildFile section */
+		AA000001 /* VideoFeedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100001 /* VideoFeedApp.swift */; };
+		AA000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100002 /* ContentView.swift */; };
+		AA000003 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100003 /* AppState.swift */; };
+		AA000004 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100004 /* Video.swift */; };
+		AA000005 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100005 /* APIClient.swift */; };
+		AA000006 /* DJAudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100006 /* DJAudioEngine.swift */; };
+		AA000007 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100007 /* SupabaseService.swift */; };
+		AA000008 /* OpenClawService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100008 /* OpenClawService.swift */; };
+		AA000009 /* VideoFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100009 /* VideoFeedView.swift */; };
+		AA000010 /* VideoPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100010 /* VideoPostView.swift */; };
+		AA000011 /* DJPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011 /* DJPanelView.swift */; };
+		AA000012 /* DubPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100012 /* DubPanelView.swift */; };
+		AA000013 /* MetadataOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100013 /* MetadataOverlay.swift */; };
+		AA000014 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014 /* ProfileView.swift */; };
+		/* End PBXBuildFile section */
+
+		/* Begin PBXFileReference section */
+		AA100001 /* VideoFeedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/VideoFeedApp.swift"; sourceTree = "<group>"; };
+		AA100002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/ContentView.swift"; sourceTree = "<group>"; };
+		AA100003 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/Store/AppState.swift"; sourceTree = "<group>"; };
+		AA100004 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/Models/Video.swift"; sourceTree = "<group>"; };
+		AA100005 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/Network/APIClient.swift"; sourceTree = "<group>"; };
+		AA100006 /* DJAudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Core/Audio/DJAudioEngine.swift"; sourceTree = "<group>"; };
+		AA100007 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/Supabase/SupabaseService.swift"; sourceTree = "<group>"; };
+		AA100008 /* OpenClawService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/OpenClaw/OpenClawService.swift"; sourceTree = "<group>"; };
+		AA100009 /* VideoFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Feed/VideoFeedView.swift"; sourceTree = "<group>"; };
+		AA100010 /* VideoPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Feed/VideoPostView.swift"; sourceTree = "<group>"; };
+		AA100011 /* DJPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/DJMode/DJPanelView.swift"; sourceTree = "<group>"; };
+		AA100012 /* DubPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/DubPanel/DubPanelView.swift"; sourceTree = "<group>"; };
+		AA100013 /* MetadataOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Components/MetadataOverlay.swift"; sourceTree = "<group>"; };
+		AA100014 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Features/Profile/ProfileView.swift"; sourceTree = "<group>"; };
+		AA200001 /* VideoFeedApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoFeedApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		/* End PBXFileReference section */
+
+		/* Begin PBXFrameworksBuildPhase section */
+		AA300001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXFrameworksBuildPhase section */
+
+		/* Begin PBXGroup section */
+		AA400001 /* VideoFeedApp */ = {
+			isa = PBXGroup;
+			children = (
+				AA100001 /* VideoFeedApp.swift */,
+				AA100002 /* ContentView.swift */,
+				AA100003 /* AppState.swift */,
+				AA100004 /* Video.swift */,
+				AA100005 /* APIClient.swift */,
+				AA100006 /* DJAudioEngine.swift */,
+				AA100007 /* SupabaseService.swift */,
+				AA100008 /* OpenClawService.swift */,
+				AA100009 /* VideoFeedView.swift */,
+				AA100010 /* VideoPostView.swift */,
+				AA100011 /* DJPanelView.swift */,
+				AA100012 /* DubPanelView.swift */,
+				AA100013 /* MetadataOverlay.swift */,
+				AA100014 /* ProfileView.swift */,
+			);
+			path = VideoFeedApp;
+			sourceTree = "<group>";
+		};
+		AA400000 /* root */ = {
+			isa = PBXGroup;
+			children = (
+				AA400001 /* VideoFeedApp */,
+				AA500001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA500001 /* Products */ = {
+			isa = PBXGroup;
+			children = (AA200001 /* VideoFeedApp.app */);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		/* End PBXGroup section */
+
+		/* Begin PBXNativeTarget section */
+		AA600001 /* VideoFeedApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA700001 /* Build configuration list for PBXNativeTarget */;
+			buildPhases = (AA800001 /* Sources */, AA300001 /* Frameworks */);
+			buildRules = ();
+			dependencies = ();
+			name = VideoFeedApp;
+			productName = VideoFeedApp;
+			productReference = AA200001 /* VideoFeedApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		/* End PBXNativeTarget section */
+
+		/* Begin PBXProject section */
+		AA900001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				ORGANIZATIONNAME = "VideoFeed";
+				TargetAttributes = { AA600001 = { CreatedOnToolsVersion = 15.3; }; };
+			};
+			buildConfigurationList = AA700002 /* Build configuration list for PBXProject */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = AA400000;
+			productRefGroup = AA500001;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (AA600001 /* VideoFeedApp */);
+		};
+		/* End PBXProject section */
+
+		/* Begin PBXSourcesBuildPhase section */
+		AA800001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA000001, AA000002, AA000003, AA000004, AA000005,
+				AA000006, AA000007, AA000008, AA000009, AA000010,
+				AA000011, AA000012, AA000013, AA000014,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		/* End PBXSourcesBuildPhase section */
+
+		/* Begin XCBuildConfiguration section */
+		AA700010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VideoFeedApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videofeed.app;
+				PRODUCT_NAME = VideoFeedApp;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AA700011 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = VideoFeedApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.videofeed.app;
+				PRODUCT_NAME = VideoFeedApp;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		AA700020 /* Debug (Project) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; };
+			name = Debug;
+		};
+		AA700021 /* Release (Project) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; };
+			name = Release;
+		};
+		/* End XCBuildConfiguration section */
+
+		/* Begin XCConfigurationList section */
+		AA700001 /* Build configuration list for PBXNativeTarget */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (AA700010 /* Debug */, AA700011 /* Release */);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA700002 /* Build configuration list for PBXProject */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (AA700020 /* Debug */, AA700021 /* Release */);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		/* End XCConfigurationList section */
+	};
+	rootObject = AA900001 /* Project object */;
+}
