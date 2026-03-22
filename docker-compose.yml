@@ -1,0 +1,77 @@
+name: videofeed
+
+services:
+  # ── Go API Gateway ──────────────────────────────────────────────────────────
+  api-go:
+    build:
+      context: backend/go
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      SUPABASE_WEBHOOK_SECRET: ${SUPABASE_WEBHOOK_SECRET}
+      OPENCLAW_WEBHOOK_SECRET: ${OPENCLAW_WEBHOOK_SECRET}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    depends_on:
+      - api-py
+
+  # ── Python FastAPI AI Service ───────────────────────────────────────────────
+  api-py:
+    build:
+      context: backend/python
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      OPENCLAW_API_URL: ${OPENCLAW_API_URL}
+      OPENCLAW_TOKEN: ${OPENCLAW_TOKEN}
+      OPENCLAW_WEBHOOK_SECRET: ${OPENCLAW_WEBHOOK_SECRET}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # ── OpenClaw (local instance) ───────────────────────────────────────────────
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./openclaw/skills:/app/skills:ro
+      - openclaw-data:/app/data
+    environment:
+      OPENCLAW_TOKEN: ${OPENCLAW_TOKEN}
+      LLM_PROVIDER: anthropic
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    restart: unless-stopped
+
+  # ── Nginx reverse proxy ─────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - api-go
+      - api-py
+    restart: unless-stopped
+
+volumes:
+  openclaw-data:

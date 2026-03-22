@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>VideoFeed</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.videofeed.app</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>UILaunchScreen</key>
+    <dict/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <!-- Microphone — for voice cloning upload -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Record your voice to create a cloned voice persona for AI dubbing.</string>
+    <!-- Photo Library — for video upload -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Select videos from your library to upload to the feed.</string>
+    <!-- Camera — for recording -->
+    <key>NSCameraUsageDescription</key>
+    <string>Record videos directly in the app.</string>
+    <!-- ATS: allow HTTP for local dev servers -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
+    <!-- Background audio for AutoMix -->
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
+</dict>
+</plist>
