@@ -3,19 +3,26 @@ import asyncpg
 from typing import Optional
 
 _pool: Optional[asyncpg.Pool] = None
+_demo_mode: bool = False
 
 
 async def init_db():
-    global _pool
-    dsn = os.environ["DATABASE_URL"]  # postgresql://...?sslmode=require (Supabase)
+    global _pool, _demo_mode
+    dsn = os.environ.get("DATABASE_URL", "")
+    if not dsn:
+        from models.demo_data import MockPool
+        _pool = MockPool()
+        _demo_mode = True
+        print("⚡ Demo mode: no DATABASE_URL — serving mock data")
+        return
     _pool = await asyncpg.create_pool(dsn, min_size=2, max_size=10)
-    # Ensure pgvector extension is available
     async with _pool.acquire() as conn:
         await conn.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+    print("✅ Connected to Supabase")
 
 
-async def get_pool() -> asyncpg.Pool:
-    assert _pool is not None, "DB not initialized"
+async def get_pool():
+    assert _pool is not None, "DB not initialized — call init_db() first"
     return _pool
 
 
