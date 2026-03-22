@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from routers import transcribe, dub, music, jobs, openclaw_webhooks, search, preferences, favorites, recommendations
+from routers import (
+    transcribe, dub, music, jobs, openclaw_webhooks,
+    search, preferences, favorites, recommendations,
+    mood_feed, challenges, streaks, vibe_match, study,
+)
 from models.database import init_db
 
 
@@ -34,6 +38,12 @@ app.include_router(search.router,           prefix="/ai",           tags=["Searc
 app.include_router(preferences.router,      prefix="/ai",           tags=["Preferences"])
 app.include_router(favorites.router,        prefix="/ai",           tags=["Favorites"])
 app.include_router(recommendations.router,  prefix="/ai",           tags=["Recommendations"])
+# ── Teen & College Features ───────────────────────────────────────────────────
+app.include_router(mood_feed.router,    prefix="/ai", tags=["Mood Feed"])
+app.include_router(challenges.router,   prefix="/ai", tags=["Challenges"])
+app.include_router(streaks.router,      prefix="/ai", tags=["Streaks & XP"])
+app.include_router(vibe_match.router,   prefix="/ai", tags=["Vibe Match"])
+app.include_router(study.router,        prefix="/ai", tags=["Study Mode"])
 
 
 @app.get("/health")

@@ -137,3 +137,10 @@ func copyBody(w http.ResponseWriter, resp *http.Response) {
 		}
 	}
 }
+
+func pyBase() string {
+	if v := os.Getenv("PY_API_URL"); v != "" {
+		return v
+	}
+	return "http://localhost:8000"
+}

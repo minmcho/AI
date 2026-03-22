@@ -42,4 +42,23 @@ final class AppState {
         videos[index].likes += 1
         try? await supabaseService.likeVideo(id: videoID)
     }
+
+    /// Load a mood-filtered feed from the backend.
+    func loadMoodFeed(mood: String) async {
+        guard !isLoadingFeed else { return }
+        isLoadingFeed = true
+        defer { isLoadingFeed = false }
+        do {
+            struct Resp: Decodable { let videos: [Video] }
+            let resp: Resp = try await APIClient.shared.get(
+                "/api/v1/feed/mood?mood=\(mood)&limit=30",
+                base: APIClient.shared.goBase
+            )
+            videos = resp.videos.isEmpty ? videos : resp.videos  // keep existing if no results
+            page = 1
+            currentVideoID = videos.first?.id
+        } catch {
+            feedError = error
+        }
+    }
 }
