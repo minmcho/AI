@@ -1,0 +1,66 @@
+name: Go
+
+on:
+  push:
+    branches: [master, "claude/**"]
+    paths: ["backend/go/**"]
+  pull_request:
+    paths: ["backend/go/**"]
+
+jobs:
+  test:
+    name: Build · Lint · Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/go
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          cache-dependency-path: backend/go/go.sum
+
+      - name: Download modules
+        run: go mod download
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+          working-directory: backend/go
+
+      - name: Test (race + coverage)
+        run: go test ./... -race -coverprofile=coverage.out
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: backend/go/coverage.out
+          flags: go
+
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5
+        with:
+          context: backend/go
+          push: true
+          tags: ghcr.io/${{ github.repository }}/api-go:${{ github.sha }},ghcr.io/${{ github.repository }}/api-go:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

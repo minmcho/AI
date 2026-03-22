@@ -30,6 +30,21 @@ func main() {
 	// Video streaming (range-request aware)
 	mux.HandleFunc("GET /api/v1/stream/{id}", handlers.StreamVideo)
 
+	// Search & Discovery
+	mux.HandleFunc("GET /api/v1/search",                                 handlers.SearchVideos)
+	mux.HandleFunc("GET /api/v1/recommendations/{profileID}",            handlers.GetRecommendations)
+	mux.HandleFunc("GET /api/v1/recommendations/{profileID}/music",      handlers.GetMusicRecommendations)
+
+	// Preferences
+	mux.HandleFunc("GET /api/v1/preferences/options",                    handlers.GetPreferenceOptions)
+	mux.HandleFunc("GET /api/v1/preferences/{profileID}",                handlers.GetPreferences)
+	mux.HandleFunc("PUT /api/v1/preferences/{profileID}",                handlers.UpsertPreferences)
+
+	// Favorites
+	mux.HandleFunc("GET /api/v1/favorites/{profileID}",                  handlers.ListFavorites)
+	mux.HandleFunc("POST /api/v1/favorites/{profileID}",                 handlers.AddFavorite)
+	mux.HandleFunc("DELETE /api/v1/favorites/{profileID}/{favoriteID}",  handlers.RemoveFavorite)
+
 	// Webhooks (inbound from Supabase + OpenClaw)
 	mux.HandleFunc("POST /webhooks/supabase", webhooks.SupabaseHandler)
 	mux.HandleFunc("POST /webhooks/openclaw", webhooks.OpenClawHandler)

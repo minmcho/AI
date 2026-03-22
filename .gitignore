@@ -1,24 +1,73 @@
-# Logs
-logs
-*.log
+# ── Secrets ──────────────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets/
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ── Xcode / iOS ───────────────────────────────────────────────────────────────
+ios/build/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+ios/DerivedData/
+ios/*.ipa
+ios/*.dSYM.zip
+ios/*.dSYM
+ios/.swiftpm/
+ios/Pods/
+ios/Podfile.lock
+*.resolved           # Keep Package.resolved in VCS for reproducible builds? Actually keep it.
+!Package.resolved
+
+# ── Go ────────────────────────────────────────────────────────────────────────
+backend/go/bin/
+backend/go/tmp/
+backend/go/*.test
+backend/go/coverage.out
+backend/go/coverage.html
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+dist/
+*.egg-info/
+backend/python/.env
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+.docker/
+
+# ── Node / Frontend (legacy stubs) ───────────────────────────────────────────
+node_modules/
+dist/
+dist-ssr/
+*.local
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# ── Editors ───────────────────────────────────────────────────────────────────
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+!.vscode/settings.json
+.idea/
 *.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+logs/
+*.log
