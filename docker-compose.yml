@@ -1,7 +1,7 @@
-name: videofeed
+name: cargotrack
 
 services:
-  # ── Go API Gateway ──────────────────────────────────────────────────────────
+  # ── Go API Gateway + GraphQL + WebSocket ────────────────────────────────────
   api-go:
     build:
       context: backend/go
@@ -10,10 +10,13 @@ services:
       - "8080:8080"
     environment:
       PORT: "8080"
+      DATABASE_URL: ${DATABASE_URL}
+      PY_API_URL: http://api-py:8000
       SUPABASE_URL: ${SUPABASE_URL}
       SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
       SUPABASE_WEBHOOK_SECRET: ${SUPABASE_WEBHOOK_SECRET}
       OPENCLAW_WEBHOOK_SECRET: ${OPENCLAW_WEBHOOK_SECRET}
+      REDIS_URL: redis://redis:6379
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
       interval: 10s
@@ -21,9 +24,12 @@ services:
       retries: 3
     restart: unless-stopped
     depends_on:
-      - api-py
+      api-py:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
-  # ── Python FastAPI AI Service ───────────────────────────────────────────────
+  # ── FastAPI ML Service ───────────────────────────────────────────────────────
   api-py:
     build:
       context: backend/python
@@ -34,18 +40,41 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       SUPABASE_URL: ${SUPABASE_URL}
       SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
-      GEMINI_API_KEY: ${GEMINI_API_KEY}
-      OPENCLAW_API_URL: ${OPENCLAW_API_URL}
-      OPENCLAW_TOKEN: ${OPENCLAW_TOKEN}
-      OPENCLAW_WEBHOOK_SECRET: ${OPENCLAW_WEBHOOK_SECRET}
+      # Claude — reasoning + prompt caching + extended thinking
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      # Voyage AI for embeddings (falls back to ANTHROPIC_API_KEY if unset)
+      VOYAGE_API_KEY: ${VOYAGE_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENCLAW_API_URL: ${OPENCLAW_API_URL:-http://openclaw:3000}
+      OPENCLAW_TOKEN: ${OPENCLAW_TOKEN:-}
+      OPENCLAW_WEBHOOK_SECRET: ${OPENCLAW_WEBHOOK_SECRET:-}
+      REDIS_URL: redis://redis:6379
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8000/health"]
       interval: 10s
       timeout: 5s
       retries: 3
     restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
 
-  # ── OpenClaw (local instance) ───────────────────────────────────────────────
+  # ── Redis — real-time pub/sub + reasoning response cache ────────────────────
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # ── OpenClaw (local agent runner) ────────────────────────────────────────────
   openclaw:
     image: ghcr.io/openclaw/openclaw:latest
     ports:
@@ -54,12 +83,12 @@ services:
       - ./openclaw/skills:/app/skills:ro
       - openclaw-data:/app/data
     environment:
-      OPENCLAW_TOKEN: ${OPENCLAW_TOKEN}
+      OPENCLAW_TOKEN: ${OPENCLAW_TOKEN:-}
       LLM_PROVIDER: anthropic
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
     restart: unless-stopped
 
-  # ── Nginx reverse proxy ─────────────────────────────────────────────────────
+  # ── Nginx reverse proxy ──────────────────────────────────────────────────────
   nginx:
     image: nginx:1.27-alpine
     ports:
@@ -74,4 +103,5 @@ services:
     restart: unless-stopped
 
 volumes:
+  redis-data:
   openclaw-data:
