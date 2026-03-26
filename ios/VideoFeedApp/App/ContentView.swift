@@ -27,6 +27,11 @@ struct ContentView: View {
                 .tabItem { Label("Vibe", systemImage: "person.2.wave.2.fill") }
                 .tag(Tab.vibeMatch)
 
+            // ── Myanmar Translator ────────────────────────────────────────────
+            TranslationView()
+                .tabItem { Label("Translate", systemImage: "character.bubble.fill") }
+                .tag(Tab.translate)
+
             // ── Profile (streak, XP, badges, favorites, preferences) ──────────
             ProfileHubView(preferencesStore: preferencesStore)
                 .tabItem { Label("Me", systemImage: "person.circle.fill") }
@@ -35,7 +40,7 @@ struct ContentView: View {
         .tint(.cyan)
     }
 
-    enum Tab { case feed, search, challenges, vibeMatch, profile }
+    enum Tab { case feed, search, challenges, vibeMatch, translate, profile }
 }
 
 // MARK: - Profile Hub (combines Profile + Streak + Favorites + Preferences)

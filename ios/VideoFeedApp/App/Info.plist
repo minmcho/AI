@@ -16,9 +16,12 @@
     <array>
         <string>UIInterfaceOrientationPortrait</string>
     </array>
-    <!-- Microphone — for voice cloning upload -->
+    <!-- Microphone — for voice cloning and Myanmar speech-to-text -->
     <key>NSMicrophoneUsageDescription</key>
-    <string>Record your voice to create a cloned voice persona for AI dubbing.</string>
+    <string>Record your voice to create a cloned voice persona for AI dubbing, or to dictate Myanmar text for translation.</string>
+    <!-- Speech recognition — for Myanmar STT translation input -->
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Recognize spoken Myanmar (and other languages) so you can translate by voice.</string>
     <!-- Photo Library — for video upload -->
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Select videos from your library to upload to the feed.</string>

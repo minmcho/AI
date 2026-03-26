@@ -5,6 +5,7 @@ from routers import (
     transcribe, dub, music, jobs, openclaw_webhooks,
     search, preferences, favorites, recommendations,
     mood_feed, challenges, streaks, vibe_match, study,
+    translate,
 )
 from models.database import init_db
 
@@ -44,6 +45,7 @@ app.include_router(challenges.router,   prefix="/ai", tags=["Challenges"])
 app.include_router(streaks.router,      prefix="/ai", tags=["Streaks & XP"])
 app.include_router(vibe_match.router,   prefix="/ai", tags=["Vibe Match"])
 app.include_router(study.router,        prefix="/ai", tags=["Study Mode"])
+app.include_router(translate.router,    prefix="/ai", tags=["Myanmar Translation"])
 
 
 @app.get("/health")

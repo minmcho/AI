@@ -88,6 +88,23 @@ actor APIClient {
     func pollJob(jobID: String) async throws -> AgentJob {
         try await get("/ai/jobs/\(jobID)", base: pyBase)
     }
+
+    // MARK: - Myanmar Translation (NLLB-200)
+
+    func fetchLanguages() async throws -> [MyanmarLanguage] {
+        let resp: LanguagesResponse = try await get("/ai/translate/languages", base: pyBase)
+        return resp.languages.map { MyanmarLanguage(code: $0.code, name: $0.name) }
+    }
+
+    func translate(text: String, from: MyanmarLanguage, to: MyanmarLanguage) async throws -> TranslateResponse {
+        let body = TranslateRequest(text: text, sourceLang: from.code, targetLang: to.code)
+        return try await post("/ai/translate", body: body, base: pyBase)
+    }
+
+    func translateToMultiple(text: String, from: MyanmarLanguage, to: [MyanmarLanguage]) async throws -> MultiTranslateResponse {
+        let body = MultiTranslateRequest(text: text, sourceLang: from.code, targetLangs: to.map(\.code))
+        return try await post("/ai/translate/multi", body: body, base: pyBase)
+    }
 }
 
 // MARK: - Helpers
